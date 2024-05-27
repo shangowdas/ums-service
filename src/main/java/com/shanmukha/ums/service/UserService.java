@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.shanmukha.ums.dto.AddUserRequestDTO;
 import com.shanmukha.ums.dto.AddUserResponseDTO;
+import com.shanmukha.ums.dto.GetUsersDTO;
 import com.shanmukha.ums.dto.GetUsersPagedDTO;
 import com.shanmukha.ums.dto.UpdateUserRequestDTO;
 import com.shanmukha.ums.dto.UpdateUserResponseDTO;
@@ -22,4 +23,6 @@ public interface UserService {
     GetUsersPagedDTO getUsers(Integer pageSize, Integer pageNo, String sortBy, String name, String username, String role);
 
     String deleteUser(@NonNull String username) throws ResourceNotFoundException, InternalServerException;
+    
+    GetUsersDTO login(@NonNull String username, @NonNull String password) throws ResourceNotFoundException, InternalServerException;
 }

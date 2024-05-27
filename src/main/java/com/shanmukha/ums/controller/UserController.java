@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shanmukha.ums.dto.AddUserRequestDTO;
 import com.shanmukha.ums.dto.AddUserResponseDTO;
+import com.shanmukha.ums.dto.GetUsersDTO;
 import com.shanmukha.ums.dto.GetUsersPagedDTO;
 import com.shanmukha.ums.dto.UpdateUserRequestDTO;
 import com.shanmukha.ums.dto.UpdateUserResponseDTO;
@@ -55,9 +56,14 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.deleteUser(username));
     }
 
-    @GetMapping(value = "users")
+    @GetMapping(value = "user")
     public ResponseEntity<GetUsersPagedDTO> getUsers(@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "id") String sortBy, @RequestParam(name = "name", defaultValue = "") String name, @RequestParam(name = "username", defaultValue = "") String username, @RequestParam(name = "role", defaultValue = "") String role) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers(pageSize, pageNo, sortBy, name, username, role));
+    }
+    
+    @GetMapping(value = "user/login/{username}/{password}")
+    public ResponseEntity<GetUsersDTO> login(@PathVariable String username, @PathVariable String password) throws ResourceNotFoundException, InternalServerException {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.login(username, password));
     }
 	
 }

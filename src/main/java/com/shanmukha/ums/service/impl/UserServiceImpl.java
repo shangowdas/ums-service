@@ -119,4 +119,24 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+	@Override
+	public GetUsersDTO login(@NonNull String username, @NonNull String password)
+			throws ResourceNotFoundException, InternalServerException {
+		User user = userRepository.findUserByUsername(username)
+                .orElseThrow(() -> {
+                    String errorMessage = String.format("Could not find user with username: %s", username);
+//                    log.warn(errorMessage);
+                    return new ResourceNotFoundException(errorMessage);
+                });
+		if (user != null) {
+			if (!user.getPassword().equals(password)) {
+				String message = String.format("wrong password");
+				throw new ResourceNotFoundException(message);
+			}
+		}else {
+			throw new ResourceNotFoundException(String.format("Could not find user with username: %s", username));
+		}
+		return new GetUsersDTO(user.getId(), user.getName(), user.getUsername(), user.getEmail(), user.getRole(), user.getPhone());
+	}
+
 }
